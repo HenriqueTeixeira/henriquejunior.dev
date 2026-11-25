@@ -12,7 +12,7 @@ export default {
       notFoundHandling: "404-page",
     },
     // Produção só no domínio próprio; o endereço público *.workers.dev fica desligado.
-    domains: ["henriqueteixeirasjr.com.br"],
+    domains: ["henriquejunior.dev"],
     workersDev: false,
     // URLs de versão continuam ligadas para os previews dos pull requests.
     previewUrls: true,

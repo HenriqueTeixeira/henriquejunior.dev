@@ -1,6 +1,6 @@
 # site-pessoal
 
-Página pessoal estática publicada em https://henriqueteixeirasjr.com.br, na Cloudflare (Workers + Static Assets).
+Página pessoal estática publicada em https://henriquejunior.dev, na Cloudflare (Workers + Static Assets).
 
 Projeto de estudo: esteira no GitHub Actions e controles de segurança pensados para produção.
 

@@ -47,7 +47,7 @@ jobs:
     # O environment "production" guarda os secrets e pode exigir aprovação manual.
     environment:
       name: production
-      url: https://henriqueteixeirasjr.com.br
+      url: https://henriquejunior.dev
     # Um deploy por vez; um novo push espera o anterior terminar.
     concurrency:
       group: deploy-production
