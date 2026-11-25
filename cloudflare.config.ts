@@ -2,7 +2,7 @@ import type { CloudflareConfig } from "cf/config";
 
 export default {
   worker: {
-    name: "site-pessoal",
+    name: "henriquejunior-dev",
     compatibilityDate: "2026-11-19",
     observability: {
       enabled: true,
