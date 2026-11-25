@@ -1,0 +1,15 @@
+version: 2
+updates:
+  # Atualiza os SHAs das actions fixadas no workflow.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      cloudflare:
+        patterns: ["cf", "wrangler"]

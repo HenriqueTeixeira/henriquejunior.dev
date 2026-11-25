@@ -1,0 +1,20 @@
+{
+  "name": "site-pessoal",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Página pessoal estática na Cloudflare (Workers + Static Assets).",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "dev": "cf dev",
+    "build": "cf build --mode production",
+    "check": "cf deploy --prebuilt --mode production --dry-run",
+    "deploy": "cf deploy --prebuilt --mode production"
+  },
+  "devDependencies": {
+    "cf": "1.0.0-rc.4",
+    "wrangler": "4.167.0"
+  }
+}

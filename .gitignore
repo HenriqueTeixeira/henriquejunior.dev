@@ -1,0 +1,16 @@
+# Dependências e saída de build
+node_modules/
+.cloudflare/
+
+# Variáveis e segredos locais: nunca versionar
+.env
+.env.*
+.dev.vars
+.dev.vars.*
+
+# Sistema
+Thumbs.db
+.DS_Store
+
+# Estado local do Wrangler/cf dev
+.wrangler/

@@ -1,0 +1,73 @@
+name: Deploy
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# Por padrão nenhum job recebe permissão de escrita no repositório.
+permissions:
+  contents: read
+
+env:
+  CF_SEND_TELEMETRY: "false"
+
+jobs:
+  validar:
+    name: Build e validação
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # Actions fixadas por SHA: uma tag movida não troca o código executado.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - run: npm ci
+
+      - name: Auditoria de dependências
+        run: npm audit --audit-level=high
+
+      - run: npm run build
+
+      # Valida a configuração sem credenciais nem chamadas à API.
+      - run: npm run check
+
+  deploy:
+    name: Deploy em produção
+    needs: validar
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # O environment "production" guarda os secrets e pode exigir aprovação manual.
+    environment:
+      name: production
+      url: https://henriqueteixeirasjr.com.br
+    # Um deploy por vez; um novo push espera o anterior terminar.
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+
+      - name: Deploy
+        run: npm run deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
