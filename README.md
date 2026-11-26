@@ -12,6 +12,7 @@ Projeto de estudo: esteira no GitHub Actions e controles de segurança pensados 
 | `public/_headers` | Cabeçalhos de segurança (CSP, HSTS e outros) |
 | `cloudflare.config.ts` | Worker, domínio próprio, `workers.dev` desligado |
 | `.github/workflows/deploy.yml` | Esteira: validação em todo PR e push; deploy só na `main` |
+| `.github/workflows/checagem-diaria.yml` | Roda `scripts/checar-site.sh` todo dia, mesmo sem deploy |
 | `scripts/checar-site.sh` | Confere o site publicado: status, conteúdo, cabeçalhos de segurança e 404 |
 | `.github/dependabot.yml` | Atualização semanal de actions e dependências |
 
@@ -41,6 +42,7 @@ npm run check
 
 1. **validar** (PR e push): `npm ci`, `npm audit`, build e deploy simulado. Não recebe secrets.
 2. **deploy** (push na `main`): roda no environment `production` do GitHub, que guarda os secrets e pode exigir aprovação. Depois de publicar, roda `scripts/checar-site.sh` contra o domínio; se o site ou os cabeçalhos não estiverem certos, a esteira fica vermelha.
+3. **checagem diária** (agendada, 06:17 em Belém): repete a conferência do site sem fazer deploy e sem secrets. Detecta site fora do ar ou alterado por fora da esteira; se falhar, o GitHub avisa por e-mail. Também pode ser disparada à mão em *Actions → Checagem diária → Run workflow*.
 
 Secrets do environment `production`:
 

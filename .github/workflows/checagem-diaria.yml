@@ -1,0 +1,26 @@
+name: Checagem diária
+
+# Confere o site publicado uma vez por dia, mesmo sem deploy: detecta site fora do ar,
+# alteração feita por fora da esteira ou cabeçalho de segurança removido.
+# Se falhar, o GitHub avisa por e-mail quem criou ou alterou este agendamento.
+on:
+  schedule:
+    # 09:17 UTC (06:17 em Belém). Minuto quebrado evita o pico de agendamentos na hora cheia.
+    - cron: "17 9 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checar:
+    name: Conferir o site publicado
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # Não usa secrets: só faz requisições públicas ao site.
+      - run: bash scripts/checar-site.sh https://henriquejunior.dev
