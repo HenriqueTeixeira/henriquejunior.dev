@@ -1,8 +1,20 @@
 ---
 layout: layouts/base.njk
 ---
+{%- from "componentes/prompt.njk" import prompt -%}
 <section class="hero container">
-  <p class="hero__sobretitulo">{{ site.posicionamento }}</p>
-  <h1 class="hero__titulo">{{ site.nome }}</h1>
-  <p class="hero__texto">Construindo soluções digitais e conectando pessoas, tecnologia e estratégia para transformar ideias em resultados.</p>
+  <div class="janela">
+    <div class="janela__barra" aria-hidden="true">
+      <span class="janela__botoes"><span></span><span></span><span></span></span>
+      <span class="janela__titulo">henrique@junior: ~</span>
+    </div>
+    <div class="janela__corpo">
+      {{ prompt("whoami") }}
+      <h1 class="hero__titulo">{{ site.nome }}</h1>
+      {{ prompt("cat posicionamento.txt") }}
+      <p class="hero__posicionamento">{% for palavra in site.posicionamento.split(" ") %}<span>{{ palavra }}</span>{% if not loop.last %} {% endif %}{% endfor %}</p>
+      <p class="hero__texto">Construindo soluções digitais e conectando pessoas, tecnologia e estratégia para transformar ideias em resultados.</p>
+      {{ prompt("", true) }}
+    </div>
+  </div>
 </section>

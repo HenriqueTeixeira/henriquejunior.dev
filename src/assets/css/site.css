@@ -141,10 +141,20 @@ pre {
 }
 
 .marca {
-  color: var(--cor-texto);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-3);
+  min-height: 2.75rem;
+  font-family: var(--fonte-tecnica);
+  font-size: var(--texto-sm);
+  font-weight: 600;
   text-decoration: none;
-  font-weight: 650;
-  letter-spacing: -0.02em;
+}
+
+.monograma {
+  flex: none;
+  width: 2rem;
+  height: 2rem;
 }
 
 .nav {
@@ -167,17 +177,27 @@ pre {
   align-items: center;
   min-height: 2.5rem;
   padding-inline: var(--esp-3);
-  border-radius: var(--raio-total);
-  color: var(--cor-texto-suave);
+  border-radius: var(--raio-sm);
+  color: var(--ansi-azul);
+  font-family: var(--fonte-tecnica);
   font-size: var(--texto-sm);
   text-decoration: none;
   transition: color var(--duracao) var(--curva), background-color var(--duracao) var(--curva);
 }
 
-.nav__link:hover,
-.nav__link[aria-current="page"] {
-  color: var(--cor-texto);
+.nav__link:hover {
   background: var(--cor-superficie-2);
+}
+
+/* Diretório atual em amarelo e sublinhado, como o diretório de trabalho do prompt. */
+.nav__link[aria-current="page"] {
+  color: var(--ansi-amarelo);
+  text-decoration: underline;
+  text-underline-offset: 0.35em;
+}
+
+.nav__prefixo {
+  color: var(--cor-texto-discreto);
 }
 
 .botao-icone {
@@ -187,7 +207,7 @@ pre {
   height: 2.5rem;
   padding: 0;
   border: 1px solid var(--cor-borda);
-  border-radius: var(--raio-total);
+  border-radius: var(--raio-sm);
   background: var(--cor-superficie);
   color: var(--cor-texto);
   cursor: pointer;
@@ -273,8 +293,9 @@ pre {
   min-height: 2.75rem;
   padding: 0 var(--esp-6);
   border: 1px solid transparent;
-  border-radius: var(--raio-total);
+  border-radius: var(--raio-sm);
   font: inherit;
+  font-family: var(--fonte-tecnica);
   font-size: var(--texto-sm);
   font-weight: 600;
   text-decoration: none;
@@ -310,50 +331,162 @@ pre {
   box-shadow: var(--sombra);
 }
 
-/* ---------- Hero ---------- */
-.hero {
-  padding-block: var(--esp-secao);
+/* ---------- Terminal ---------- */
+/* Janela de terminal: barra com os três botões e o corpo com linhas de prompt. */
+.janela {
+  overflow: hidden;
+  border: 1px solid var(--cor-borda-forte);
+  border-radius: var(--raio-lg);
+  background: var(--cor-superficie);
+  box-shadow: var(--sombra);
 }
 
-.hero__sobretitulo {
-  margin-bottom: var(--esp-4);
-  color: var(--cor-texto-discreto);
+.janela__barra {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 2.25rem;
+  padding-inline: var(--esp-4);
+  background: var(--cor-barra-janela);
+}
+
+.janela__botoes {
+  display: flex;
+  gap: var(--esp-2);
+}
+
+.janela__botoes span {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background: var(--ansi-vermelho);
+}
+
+.janela__botoes span:nth-child(2) {
+  background: var(--ansi-amarelo);
+}
+
+.janela__botoes span:nth-child(3) {
+  background: var(--ansi-verde);
+}
+
+.janela__titulo {
+  position: absolute;
+  inset-inline: 5rem;
+  overflow: hidden;
+  color: var(--cor-texto-suave);
   font-family: var(--fonte-tecnica);
   font-size: var(--texto-xs);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.janela__corpo {
+  display: grid;
+  gap: var(--esp-3);
+  justify-items: start;
+  padding: clamp(1.25rem, 0.75rem + 2.5vw, 2.5rem);
+}
+
+.prompt {
+  font-family: var(--fonte-tecnica);
+  font-size: var(--texto-sm);
+  overflow-wrap: anywhere;
+}
+
+.prompt__usuario {
+  color: var(--ansi-verde);
+}
+
+.prompt__host {
+  color: var(--ansi-ciano);
+}
+
+.prompt__sep {
+  color: var(--cor-texto-discreto);
+}
+
+.prompt__dir {
+  color: var(--ansi-azul);
+}
+
+.prompt__comando {
+  color: var(--cor-texto);
+}
+
+.prompt + .prompt,
+* + .prompt {
+  margin-top: var(--esp-3);
+}
+
+/* Cursor de bloco que pisca; com movimento reduzido fica parado. */
+.cursor {
+  display: inline-block;
+  width: 0.6em;
+  height: 1.15em;
+  vertical-align: -0.2em;
+  background: var(--cor-primaria);
+  animation: piscar 1.1s steps(1) infinite;
+}
+
+@keyframes piscar {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  padding-block: clamp(2rem, 1rem + 5vw, 6rem);
 }
 
 .hero__titulo {
-  max-width: 14ch;
   font-size: var(--texto-3xl);
+}
+
+.hero__posicionamento {
+  font-family: var(--fonte-tecnica);
+  font-size: var(--texto-lg);
+}
+
+.hero__posicionamento span:nth-child(1) {
+  color: var(--ansi-ciano);
+}
+
+.hero__posicionamento span:nth-child(2) {
+  color: var(--ansi-magenta);
+}
+
+.hero__posicionamento span:nth-child(3) {
+  color: var(--ansi-amarelo);
 }
 
 .hero__texto {
   max-width: var(--largura-texto);
-  margin-top: var(--esp-6);
+  margin-top: var(--esp-2);
   color: var(--cor-texto-suave);
   font-size: var(--texto-lg);
 }
 
 /* ---------- Página de erro ---------- */
 .erro {
-  padding-block: var(--esp-secao);
+  padding-block: clamp(2rem, 1rem + 5vw, 6rem);
 }
 
 .erro__codigo {
-  color: var(--cor-texto-discreto);
+  color: var(--ansi-vermelho);
   font-family: var(--fonte-tecnica);
   font-size: var(--texto-sm);
 }
 
 .erro__titulo {
-  margin-top: var(--esp-2);
+  margin-top: var(--esp-4);
   font-size: var(--texto-2xl);
 }
 
 .erro__texto {
-  margin-block: var(--esp-4) var(--esp-8);
+  margin-bottom: var(--esp-4);
   color: var(--cor-texto-suave);
 }
 
@@ -370,8 +503,12 @@ pre {
   gap: var(--esp-4);
 }
 
+.rodape {
+  font-family: var(--fonte-tecnica);
+}
+
 .rodape__marca {
-  color: var(--cor-texto);
+  color: var(--ansi-verde);
   font-weight: 600;
 }
 
@@ -391,7 +528,11 @@ pre {
 }
 
 .rodape__redes a {
-  color: var(--cor-texto-suave);
+  color: var(--ansi-azul);
+}
+
+.rodape__prefixo {
+  color: var(--cor-texto-discreto);
 }
 
 @media (min-width: 48rem) {

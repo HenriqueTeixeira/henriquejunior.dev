@@ -5,7 +5,7 @@
     {%- if redes | length %}
     <ul class="rodape__redes" aria-label="{{ t.redes }}">
       {%- for rede in redes %}
-      <li><a href="{{ rede.url }}" rel="me noopener">{{ rede.rotulo }}</a></li>
+      <li><a href="{{ rede.url }}" rel="me noopener"><span class="rodape__prefixo" aria-hidden="true">→ </span>{{ rede.rotulo }}</a></li>
       {%- endfor %}
     </ul>
     {%- endif %}
