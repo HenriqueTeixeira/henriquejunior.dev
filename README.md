@@ -9,11 +9,14 @@ Site estático gerado pelo [Eleventy](https://www.11ty.dev/) e servido pela Clou
 | Caminho | Conteúdo |
 |---|---|
 | `src/` | Fonte do site: páginas (`*.njk`), dados e layouts |
-| `src/_data/site.json` | Identidade, navegação e redes. Item de menu com `"visivel": false` fica escondido |
+| `src/_data/site.json` | Identidade, apresentação, navegação, contato e redes. Item de menu com `"ativo": false` some; item ligado a uma coleção só aparece com conteúdo |
+| `src/_data/sobre.json`, `areas.json`, `catalogo.json` | Página Sobre, áreas de atuação da Home e listas fixas (categorias, tipos de projeto, status de produto) |
+| `src/projetos/`, `src/produtos/`, `src/insights/` | Um arquivo Markdown por projeto, produto ou artigo |
+| `lib/conteudo.js` | Regra de publicação: o que vai ao ar em produção |
 | `src/_data/textos.json` | Textos da interface por idioma (hoje só `pt-BR`) |
-| `src/_includes/` | Layout base e componentes (cabeçalho, rodapé) |
+| `src/_includes/` | Layouts (base, projeto, produto, artigo) e componentes |
 | `src/assets/css/tokens.css` | Design system: cores, tipografia, espaçamento, forma e movimento; temas claro e escuro |
-| `src/assets/css/site.css` | Base, layout e componentes, só com os tokens |
+| `src/assets/css/site.css`, `paginas.css` | Base, cabeçalho e terminal; seções, listagens e páginas internas. Só usam os tokens |
 | `src/assets/js/` | `tema.js` (aplica o tema antes da pintura) e `site.js` (botão de tema e menu) |
 | `public/` | Copiado sem mudança para a raiz do site: `_headers`, `robots.txt`, `favicon.svg` (monograma) e `og.png` (imagem de compartilhamento) |
 | `dist/` | Saída do Eleventy (não versionada), publicada pela Cloudflare |
@@ -23,6 +26,7 @@ Site estático gerado pelo [Eleventy](https://www.11ty.dev/) e servido pela Clou
 | `lighthouserc.json` | Metas do Lighthouse: 95 ou mais em todas as categorias |
 | `scripts/servir.mjs` | Servidor local de `dist/` com os cabeçalhos do `_headers`, usado pelos testes |
 | `scripts/checar-site.sh` | Confere o site publicado: status, conteúdo, cabeçalhos de segurança e 404 |
+| `scripts/checar-placeholders.mjs` | Reprova o build de produção se sobrar algum `[PREENCHER` |
 | `scripts/gerar-og.mjs` | Gera `public/og.png` (1200×630) com `npm run og`; rodar de novo quando nome, posicionamento ou marca mudarem |
 | `.github/workflows/deploy.yml` | Esteira: validação e testes em todo PR e push; preview; deploy só na `main` |
 | `.github/workflows/checagem-diaria.yml` | Roda `scripts/checar-site.sh` todo dia, mesmo sem deploy |
@@ -70,6 +74,25 @@ $env:PW_CANAL = 'chrome'; npm test
 
 ```powershell
 $env:CHROME_PATH = 'C:\Program Files\Google\Chrome\Application\chrome.exe'; npm run lighthouse
+```
+
+## Conteúdo
+
+Nenhuma mudança de código é necessária para publicar conteúdo novo.
+
+- **Projeto:** crie `src/projetos/<slug>.md`. Front matter: `titulo`, `resumo`, `categoria` e `tipo` (chaves de `catalogo.json`), `date`, `status`, `tecnologias`, `links` e `destaque: true` para aparecer na Home. O corpo segue o estudo de caso com títulos `##` (Contexto, Problema, Objetivos, Minha participação, Estratégia, Solução, Resultados, Aprendizados). Use `src/projetos/henriquejunior-dev.md` como modelo.
+- **Produto:** crie `src/produtos/<slug>.md` com `titulo`, `resumo`, `categoria`, `status` (chave de `catalogo.json`), `problema`, `publico`, `funcionalidades` e `links` (`acesso`, `documentacao`, `privacidade`).
+- **Artigo:** crie `src/insights/<slug>.md` com `titulo`, `subtitulo`, `categoria` e `date`. O tempo de leitura, o sumário (títulos `##`) e os artigos relacionados (mesma categoria) são calculados.
+- **Sobre:** preencha `src/_data/sobre.json`.
+
+### Exemplos e placeholders
+
+Item com `exemplo: true` e campo vazio do `sobre.json` aparecem nos previews e no ambiente local, marcados como `[PREENCHER: …]`, para mostrar o layout. No build de produção (`SITE_AMBIENTE=producao`) eles somem, e uma seção sem nenhum item real some do menu, da Home e das URLs. A esteira roda `npm run checar:placeholders` nesse build e reprova se algum placeholder escapar.
+
+Para ver localmente como fica em produção:
+
+```powershell
+$env:SITE_AMBIENTE = 'producao'; npm run build:site; Remove-Item Env:SITE_AMBIENTE
 ```
 
 ## Fluxo de branches

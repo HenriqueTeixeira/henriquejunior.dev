@@ -1,0 +1,28 @@
+---
+layout: layouts/base.njk
+---
+{%- from "componentes/ui.njk" import trilha -%}
+{%- set t = textos[site.idioma] -%}
+{%- set categoria = catalogo.categoriasProjeto | porChave(categoria) -%}
+{%- set tipoItem = catalogo.tiposProjeto | porChave(tipo) -%}
+<article class="detalhe container">
+  {{ trilha([{ rotulo: t.inicio, url: "/" }, { rotulo: "Projetos", url: "/projetos/" }, { rotulo: titulo }], t.trilha) }}
+  <header class="detalhe__cabecalho">
+    <p class="detalhe__meta"><span class="prompt__dir">{{ categoria.rotulo if categoria else categoria }}</span>{% if tipoItem %} · Projeto {{ tipoItem.rotulo | lower }}{% endif %}{% if status %} · {{ status }}{% endif %}</p>
+    <h1 class="detalhe__titulo">{{ titulo }}</h1>
+    <p class="detalhe__resumo">{{ resumo }}</p>
+  </header>
+  <div class="detalhe__grade">
+    <div class="prosa">{{ content | safe }}</div>
+    <aside class="detalhe__lateral" aria-label="Ficha do projeto">
+      {%- if tecnologias %}
+      <h2 class="lateral__titulo">{{ t.tecnologias }}</h2>
+      <ul class="lista-tags">{% for tec in tecnologias %}<li>{{ tec }}</li>{% endfor %}</ul>
+      {%- endif %}
+      {%- if links %}
+      <h2 class="lateral__titulo">{{ t.links }}</h2>
+      <ul class="lista-links">{% for link in links %}<li><a href="{{ link.url }}">{{ link.rotulo }} {% icone "external-link" %}</a></li>{% endfor %}</ul>
+      {%- endif %}
+    </aside>
+  </div>
+</article>

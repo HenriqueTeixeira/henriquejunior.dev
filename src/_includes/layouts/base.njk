@@ -1,12 +1,13 @@
 {%- set t = textos[site.idioma] -%}
-{%- set tituloPagina = (title + " · " + site.nome) if title else (site.nome + " · " + site.posicionamento) -%}
+{%- set tituloConteudo = title or titulo -%}
+{%- set tituloPagina = (tituloConteudo + " · " + site.nome) if tituloConteudo else (site.nome + " · " + site.posicionamento) -%}
 <!doctype html>
 <html lang="{{ site.idioma }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ tituloPagina }}</title>
-  <meta name="description" content="{{ description or site.descricao }}">
+  <meta name="description" content="{{ description or resumo or subtitulo or site.descricao }}">
   {%- if robots %}
   <meta name="robots" content="{{ robots }}">
   {%- else %}
@@ -20,6 +21,7 @@
   <link rel="preload" href="/fontes/jetbrains-mono.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/tokens.css">
   <link rel="stylesheet" href="/assets/css/site.css">
+  <link rel="stylesheet" href="/assets/css/paginas.css">
   {#- Aplica o tema salvo antes da primeira pintura, para a página não piscar. #}
   <script src="/assets/js/tema.js"></script>
   <script type="module" src="/assets/js/site.js"></script>

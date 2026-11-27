@@ -1,0 +1,67 @@
+{#- Peças de interface reutilizadas pelas páginas. -#}
+
+{#- Cabeçalho de seção: comando de terminal decorativo + título real. #}
+{%- macro secao(comando, titulo, id, nivel = 2) -%}
+<div class="secao__cabecalho">
+  <p class="secao__comando" aria-hidden="true"><span class="prompt__dir">~</span><span class="prompt__sep">$</span> {{ comando }}</p>
+  <h{{ nivel }} class="secao__titulo" id="{{ id }}">{{ titulo }}</h{{ nivel }}>
+</div>
+{%- endmacro -%}
+
+{#- Placeholder visível só fora da produção (a página nem chama a macro em produção). #}
+{%- macro placeholder(rotulo) -%}
+<p class="placeholder">[PREENCHER: {{ rotulo }}]</p>
+{%- endmacro -%}
+
+{#- Selo de status do produto, com a cor ANSI do catálogo. #}
+{%- macro selo(chave, catalogo) -%}
+{%- set item = catalogo.statusProduto | porChave(chave) -%}
+<span class="selo selo--{{ item.cor if item else 'azul' }}"><span aria-hidden="true">●</span> {{ item.rotulo if item else chave }}</span>
+{%- endmacro -%}
+
+{#- Trilha de navegação das páginas internas. #}
+{%- macro trilha(itens, rotulo) -%}
+<nav class="trilha" aria-label="{{ rotulo }}">
+  <ol>
+    {%- for item in itens %}
+    <li>{% if item.url %}<a href="{{ item.url }}">{{ item.rotulo }}</a>{% else %}<span aria-current="page">{{ item.rotulo }}</span>{% endif %}</li>
+    {%- endfor %}
+  </ol>
+</nav>
+{%- endmacro -%}
+
+{#- Cartão de projeto para listagens. #}
+{%- macro cartaoProjeto(projeto, catalogo, nivel = 3) -%}
+{%- set categoria = catalogo.categoriasProjeto | porChave(projeto.data.categoria) -%}
+{%- set tipo = catalogo.tiposProjeto | porChave(projeto.data.tipo) -%}
+<article class="cartao cartao--link">
+  <p class="cartao__meta"><span class="prompt__dir">{{ categoria.rotulo if categoria else projeto.data.categoria }}</span>{% if tipo %} · {{ tipo.rotulo }}{% endif %}</p>
+  <h{{ nivel }} class="cartao__titulo"><a href="{{ projeto.url }}">{{ projeto.data.titulo }}</a></h{{ nivel }}>
+  <p class="cartao__texto">{{ projeto.data.resumo }}</p>
+  {%- if projeto.data.tecnologias %}
+  <p class="cartao__tags">{% for tec in projeto.data.tecnologias %}<span>#{{ tec | lower | replace(" ", "-") }}</span>{% endfor %}</p>
+  {%- endif %}
+</article>
+{%- endmacro -%}
+
+{#- Cartão de produto para listagens. #}
+{%- macro cartaoProduto(produto, catalogo, nivel = 3) -%}
+<article class="cartao cartao--link">
+  <div class="cartao__topo">
+    <p class="cartao__meta">{{ produto.data.categoria }}</p>
+    {{ selo(produto.data.status, catalogo) }}
+  </div>
+  <h{{ nivel }} class="cartao__titulo"><a href="{{ produto.url }}">{{ produto.data.titulo }}</a></h{{ nivel }}>
+  <p class="cartao__texto">{{ produto.data.resumo }}</p>
+</article>
+{%- endmacro -%}
+
+{#- Linha de artigo para listagens. #}
+{%- macro linhaInsight(artigo, catalogo, nivel = 3) -%}
+{%- set categoria = catalogo.categoriasInsight | porChave(artigo.data.categoria) -%}
+<article class="linha">
+  <p class="linha__meta"><time datetime="{{ artigo.date | dataIso }}">{{ artigo.date | dataBr }}</time> · {{ categoria.rotulo if categoria else artigo.data.categoria }} · {{ artigo.content | leitura }} min</p>
+  <h{{ nivel }} class="linha__titulo"><a href="{{ artigo.url }}">{{ artigo.data.titulo }}</a></h{{ nivel }}>
+  {%- if artigo.data.subtitulo %}<p class="linha__texto">{{ artigo.data.subtitulo }}</p>{% endif %}
+</article>
+{%- endmacro -%}

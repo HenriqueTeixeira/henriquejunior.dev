@@ -33,7 +33,13 @@ jobs:
       - name: Auditoria de dependências
         run: npm audit --audit-level=high
 
+      # Build como o de produção: exemplos e campos vazios ficam de fora.
       - run: npm run build
+        env:
+          SITE_AMBIENTE: producao
+
+      - name: Nenhum placeholder em produção
+        run: npm run checar:placeholders
 
       # Valida a configuração sem credenciais nem chamadas à API.
       - run: npm run check
@@ -54,6 +60,7 @@ jobs:
 
       - run: npm ci
 
+      # Build de preview (com exemplos e placeholders): testa todos os layouts.
       - run: npm run build:site
 
       # Navegação, temas, 404 e responsividade em celular, tablet e desktop; axe (WCAG 2.2 AA) nos dois temas.
@@ -146,6 +153,11 @@ jobs:
       - run: npm ci
 
       - run: npm run build
+        env:
+          SITE_AMBIENTE: producao
+
+      - name: Nenhum placeholder em produção
+        run: npm run checar:placeholders
 
       - name: Deploy
         run: npm run deploy

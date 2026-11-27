@@ -1,0 +1,21 @@
+---
+layout: layouts/base.njk
+title: Projetos
+description: Estudos de caso de projetos pessoais e profissionais de Henrique Junior.
+---
+{%- from "componentes/ui.njk" import trilha, secao, cartaoProjeto -%}
+{%- set t = textos[site.idioma] -%}
+<section class="pagina container">
+  {{ trilha([{ rotulo: t.inicio, url: "/" }, { rotulo: "Projetos" }], t.trilha) }}
+  {{ secao("ls -l projetos/", "Projetos", "titulo", 1) }}
+  <p class="pagina__intro">Estudos de caso: contexto, problema, decisões, solução e o que ficou de aprendizado.</p>
+  {%- for categoria in catalogo.categoriasProjeto %}
+  {%- set itens = collections.projetos | comCampo("categoria", categoria.chave) %}
+  {%- if itens | length %}
+  <section class="grupo" aria-labelledby="cat-{{ categoria.chave }}">
+    <h2 class="grupo__titulo" id="cat-{{ categoria.chave }}">{{ categoria.rotulo }}</h2>
+    <div class="grade">{% for projeto in itens %}{{ cartaoProjeto(projeto, catalogo) }}{% endfor %}</div>
+  </section>
+  {%- endif %}
+  {%- endfor %}
+</section>

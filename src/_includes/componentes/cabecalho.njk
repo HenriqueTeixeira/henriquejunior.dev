@@ -1,4 +1,4 @@
-{%- set itens = site.navegacao | visiveis -%}
+{%- set itens = site.navegacao | visiveis(collections) -%}
 <header class="cabecalho">
   <div class="cabecalho__interno container">
     <a class="marca" href="/" aria-label="{{ site.nome }}, {{ t.paginaInicial | lower }}">
@@ -14,7 +14,7 @@
       <ul class="nav__lista" id="nav-lista">
         {%- for item in itens %}
         {#- Itens como diretórios: o "~/" é só visual; o nome acessível é o rótulo. #}
-        <li><a class="nav__link" href="{{ item.url }}"{% if page.url == item.url %} aria-current="page"{% endif %}><span class="nav__prefixo" aria-hidden="true">~/</span>{{ item.rotulo | lower }}</a></li>
+        <li><a class="nav__link" href="{{ item.url }}"{% if page.url == item.url %} aria-current="page"{% elif item.url != "/" and page.url and page.url.startsWith(item.url) %} aria-current="true"{% endif %}><span class="nav__prefixo" aria-hidden="true">~/</span>{{ item.rotulo | lower }}</a></li>
         {%- endfor %}
       </ul>
       {%- endif %}
