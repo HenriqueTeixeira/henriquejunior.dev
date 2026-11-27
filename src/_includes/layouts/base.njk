@@ -1,0 +1,34 @@
+{%- set t = textos[site.idioma] -%}
+{%- set tituloPagina = (title + " · " + site.nome) if title else (site.nome + " · " + site.posicionamento) -%}
+<!doctype html>
+<html lang="{{ site.idioma }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ tituloPagina }}</title>
+  <meta name="description" content="{{ description or site.descricao }}">
+  {%- if robots %}
+  <meta name="robots" content="{{ robots }}">
+  {%- else %}
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+  {%- endif %}
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FAFAFA" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0A0A0B" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/fontes/geist.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  {#- Aplica o tema salvo antes da primeira pintura, para a página não piscar. #}
+  <script src="/assets/js/tema.js"></script>
+  <script type="module" src="/assets/js/site.js"></script>
+</head>
+<body>
+  <a class="pular" href="#conteudo">{{ t.pularParaConteudo }}</a>
+  {% include "componentes/cabecalho.njk" %}
+  <main id="conteudo" tabindex="-1">
+    {{ content | safe }}
+  </main>
+  {% include "componentes/rodape.njk" %}
+</body>
+</html>

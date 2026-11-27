@@ -1,0 +1,14 @@
+<footer class="rodape">
+  <div class="rodape__interno container">
+    <p class="rodape__marca">{{ site.nome }} <span class="rodape__posicionamento">{{ site.posicionamento }}</span></p>
+    {%- set redes = site.redes | selectattr("url") %}
+    {%- if redes | length %}
+    <ul class="rodape__redes" aria-label="{{ t.redes }}">
+      {%- for rede in redes %}
+      <li><a href="{{ rede.url }}" rel="me noopener">{{ rede.rotulo }}</a></li>
+      {%- endfor %}
+    </ul>
+    {%- endif %}
+    <p class="rodape__direitos">© {{ "now" | ano }} {{ site.nome }}. {{ t.direitos }}</p>
+  </div>
+</footer>
