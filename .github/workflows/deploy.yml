@@ -68,20 +68,16 @@ jobs:
 
       - run: npm ci
 
-      # Sobe uma versão do Worker sem colocá-la em produção, com um preview alias com o
-      # nome da branch: a develop mantém sempre a mesma URL, e cada branch de PR ganha a
-      # sua. O alias aceita só minúsculas, números e "-" (feature/x vira feature-x).
+      # O nome do preview vem da branch: a develop mantém sempre a mesma URL, e cada
+      # branch de PR ganha a sua. A API não aceita "/" no nome (feature/x vira feature-x).
       - name: Publicar preview
         id: publicar
         run: |
           nome="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
           nome="$(printf '%s' "$nome" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9-]/-/g')"
-          npm run build
-          npx cf workers versions create --prebuilt --mode production --preview-alias "$nome" \
-            --message "preview $nome ${GITHUB_SHA::7}" > preview.json
-          cat preview.json
-          url="$(jq -r '[.. | strings | select(test("^https://'"$nome"'-"))][0] // empty' preview.json)"
-          if [[ -z "$url" ]]; then echo "URL do preview alias não encontrada na resposta"; exit 1; fi
+          npx cf previews deploy --mode production --preview-name "$nome" > preview.json
+          url="$(jq -r '.preview_urls[0] // empty' preview.json)"
+          if [[ -z "$url" ]]; then echo "URL do preview não encontrada na resposta"; cat preview.json; exit 1; fi
           echo "url=$url" >> "$GITHUB_OUTPUT"
           echo "Preview: $url" >> "$GITHUB_STEP_SUMMARY"
         env:
