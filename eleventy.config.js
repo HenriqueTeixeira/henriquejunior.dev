@@ -8,11 +8,15 @@ import { esquema } from "./lib/esquema.js";
 const require = createRequire(import.meta.url);
 const pastaIcones = path.dirname(require.resolve("lucide-static/icons/sun.svg"));
 
-// Fontes servidas pelo próprio site: só o subconjunto latino (cobre o português) do eixo de peso.
-const fontes = {
+// Arquivos de terceiros servidos pelo próprio site: fontes (só o subconjunto latino, que cobre o português) e licenças.
+const terceiros = {
   "node_modules/@fontsource-variable/geist/files/geist-latin-wght-normal.woff2": "fontes/geist.woff2",
   "node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2":
     "fontes/jetbrains-mono.woff2",
+  // As licenças OFL e ISC pedem o texto junto dos arquivos distribuídos.
+  "node_modules/@fontsource-variable/geist/LICENSE": "fontes/geist-licenca.txt",
+  "node_modules/@fontsource-variable/jetbrains-mono/LICENSE": "fontes/jetbrains-mono-licenca.txt",
+  "node_modules/lucide-static/LICENSE": "licencas/lucide.txt",
 };
 
 /** Ícone Lucide embutido no HTML durante o build: nenhum JS de terceiros chega ao navegador. */
@@ -72,7 +76,7 @@ export default function (config) {
 
   config.addPassthroughCopy({ public: "/" });
   config.addPassthroughCopy({ "src/assets": "assets" });
-  config.addPassthroughCopy(fontes);
+  config.addPassthroughCopy(terceiros);
 
   config.addShortcode("icone", icone);
 
