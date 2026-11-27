@@ -68,12 +68,14 @@ jobs:
 
       - run: npm ci
 
-      # O nome do preview vem da branch (GITHUB_HEAD_REF ou GITHUB_REF_NAME): a develop
-      # mantém sempre a mesma URL, e cada branch de PR ganha a sua.
+      # O nome do preview vem da branch: a develop mantém sempre a mesma URL, e cada
+      # branch de PR ganha a sua. A API não aceita "/" no nome (feature/x vira feature-x).
       - name: Publicar preview
         id: publicar
         run: |
-          npx cf previews deploy --mode production > preview.json
+          nome="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+          nome="$(printf '%s' "$nome" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9-]/-/g')"
+          npx cf previews deploy --mode production --preview-name "$nome" > preview.json
           url="$(jq -r '.preview_urls[0] // empty' preview.json)"
           if [[ -z "$url" ]]; then echo "URL do preview não encontrada na resposta"; cat preview.json; exit 1; fi
           echo "url=$url" >> "$GITHUB_OUTPUT"
