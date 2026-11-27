@@ -528,6 +528,7 @@ pre {
   list-style: none;
 }
 
+.rodape__direitos a,
 .rodape__redes a {
   color: var(--ansi-azul);
 }

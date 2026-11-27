@@ -18,7 +18,10 @@ Site estático gerado pelo [Eleventy](https://www.11ty.dev/) e servido pela Clou
 | `src/assets/css/tokens.css` | Design system: cores, tipografia, espaçamento, forma e movimento; temas claro e escuro |
 | `src/assets/css/site.css`, `paginas.css` | Base, cabeçalho e terminal; seções, listagens e páginas internas. Só usam os tokens |
 | `src/assets/js/` | `tema.js` (aplica o tema antes da pintura) e `site.js` (botão de tema e menu) |
-| `public/` | Copiado sem mudança para a raiz do site: `_headers`, `robots.txt`, `favicon.svg` (monograma) e `og.png` (imagem de compartilhamento) |
+| `public/` | Copiado sem mudança para a raiz do site: `robots.txt`, `favicon.svg` (monograma) e `og.png` (imagem de compartilhamento) |
+| `src/_headers.njk` | Cabeçalhos de segurança (CSP e outros), gerados no build: só a produção libera o Cloudflare Web Analytics |
+| `src/sitemap.njk` | `sitemap.xml` com as páginas geradas e indexáveis |
+| `lib/esquema.js` | Dados estruturados Schema.org (Person, WebSite, Article, SoftwareApplication, CreativeWork, BreadcrumbList) |
 | `dist/` | Saída do Eleventy (não versionada), publicada pela Cloudflare |
 | `eleventy.config.js` | Configuração do Eleventy, ícones Lucide embutidos no build e fontes |
 | `cloudflare.config.ts` | Worker, domínio próprio, `workers.dev` desligado |
@@ -94,6 +97,12 @@ Para ver localmente como fica em produção:
 ```powershell
 $env:SITE_AMBIENTE = 'producao'; npm run build:site; Remove-Item Env:SITE_AMBIENTE
 ```
+
+## SEO, analytics e privacidade
+
+- Toda página tem `canonical`, Open Graph, cartão do X/Twitter (imagem `public/og.png`) e JSON-LD. Previews e `workers.dev` continuam com `X-Robots-Tag: noindex`.
+- O Cloudflare Web Analytics usa o token público de `site.json` (`analytics.token`), que não é segredo: ele aparece no HTML. O script e a liberação na CSP só entram no build de produção. Para desligar, deixe o token `null`.
+- A página `/privacidade/` descreve o tratamento de dados (hospedagem, estatísticas sem cookies, tema salvo no navegador). Revise-a se algo novo passar a coletar dados, como um formulário.
 
 ## Fluxo de branches
 

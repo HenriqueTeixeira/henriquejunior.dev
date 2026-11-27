@@ -3,6 +3,7 @@ import { createRequire } from "node:module";
 import path from "node:path";
 // Produção esconde exemplos e placeholders; previews e ambiente local mostram tudo.
 import { producao } from "./lib/conteudo.js";
+import { esquema } from "./lib/esquema.js";
 
 const require = createRequire(import.meta.url);
 const pastaIcones = path.dirname(require.resolve("lucide-static/icons/sun.svg"));
@@ -96,6 +97,7 @@ export default function (config) {
   );
   config.addFilter("head", (itens, n) => itens.slice(0, n));
   config.addFilter("comCampo", (itens, campo, valor) => itens.filter((item) => item.data[campo] === valor));
+  config.addFilter("esquema", esquema);
   config.addFilter("porChave", (lista, chave) => lista.find((item) => item.chave === chave));
 
   config.setServerOptions({ port: 8080 });

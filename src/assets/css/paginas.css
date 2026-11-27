@@ -587,3 +587,11 @@
   color: var(--cor-texto-suave);
   font-size: var(--texto-lg);
 }
+
+/* ---------- Privacidade ---------- */
+.privacidade__atualizacao {
+  margin-top: var(--esp-12);
+  color: var(--cor-texto-discreto);
+  font-family: var(--fonte-tecnica);
+  font-size: var(--texto-xs);
+}
