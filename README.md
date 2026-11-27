@@ -15,7 +15,7 @@ Site estático gerado pelo [Eleventy](https://www.11ty.dev/) e servido pela Clou
 | `src/assets/css/tokens.css` | Design system: cores, tipografia, espaçamento, forma e movimento; temas claro e escuro |
 | `src/assets/css/site.css` | Base, layout e componentes, só com os tokens |
 | `src/assets/js/` | `tema.js` (aplica o tema antes da pintura) e `site.js` (botão de tema e menu) |
-| `public/` | Copiado sem mudança para a raiz do site: `_headers`, `robots.txt`, `favicon.svg` |
+| `public/` | Copiado sem mudança para a raiz do site: `_headers`, `robots.txt`, `favicon.svg` (monograma) e `og.png` (imagem de compartilhamento) |
 | `dist/` | Saída do Eleventy (não versionada), publicada pela Cloudflare |
 | `eleventy.config.js` | Configuração do Eleventy, ícones Lucide embutidos no build e fontes |
 | `cloudflare.config.ts` | Worker, domínio próprio, `workers.dev` desligado |
@@ -23,6 +23,7 @@ Site estático gerado pelo [Eleventy](https://www.11ty.dev/) e servido pela Clou
 | `lighthouserc.json` | Metas do Lighthouse: 95 ou mais em todas as categorias |
 | `scripts/servir.mjs` | Servidor local de `dist/` com os cabeçalhos do `_headers`, usado pelos testes |
 | `scripts/checar-site.sh` | Confere o site publicado: status, conteúdo, cabeçalhos de segurança e 404 |
+| `scripts/gerar-og.mjs` | Gera `public/og.png` (1200×630) com `npm run og`; rodar de novo quando nome, posicionamento ou marca mudarem |
 | `.github/workflows/deploy.yml` | Esteira: validação e testes em todo PR e push; preview; deploy só na `main` |
 | `.github/workflows/checagem-diaria.yml` | Roda `scripts/checar-site.sh` todo dia, mesmo sem deploy |
 | `.github/dependabot.yml` | Atualização semanal de actions e dependências |
