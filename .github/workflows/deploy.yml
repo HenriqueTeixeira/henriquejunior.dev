@@ -3,7 +3,7 @@ name: Deploy
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: [main, develop]
 
 # Por padrão nenhum job recebe permissão de escrita no repositório.
 permissions:
@@ -38,13 +38,64 @@ jobs:
       # Valida a configuração sem credenciais nem chamadas à API.
       - run: npm run check
 
+  preview:
+    name: Preview
+    needs: validar
+    # Push na develop e PRs abertos de branches deste repositório.
+    # PRs vindos de fork não recebem secrets e não ganham preview.
+    if: >-
+      (github.event_name == 'push' && github.ref == 'refs/heads/develop') ||
+      (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # O environment "preview" guarda o token usado só para previews; não publica no domínio.
+    environment:
+      name: preview
+      url: ${{ steps.publicar.outputs.url }}
+    # Um preview por branch; um push novo substitui o que estiver em andamento.
+    concurrency:
+      group: preview-${{ github.head_ref || github.ref_name }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - run: npm ci
+
+      # O nome do preview vem da branch: a develop mantém sempre a mesma URL, e cada
+      # branch de PR ganha a sua. A API não aceita "/" no nome (feature/x vira feature-x).
+      - name: Publicar preview
+        id: publicar
+        run: |
+          nome="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+          nome="$(printf '%s' "$nome" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9-]/-/g')"
+          npx cf previews deploy --mode production --preview-name "$nome" > preview.json
+          url="$(jq -r '.preview_urls[0] // empty' preview.json)"
+          if [[ -z "$url" ]]; then echo "URL do preview não encontrada na resposta"; cat preview.json; exit 1; fi
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+          echo "Preview: $url" >> "$GITHUB_STEP_SUMMARY"
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Conferir o preview
+        run: bash scripts/checar-site.sh "$URL_PREVIEW"
+        env:
+          URL_PREVIEW: ${{ steps.publicar.outputs.url }}
+
   deploy:
     name: Deploy em produção
     needs: validar
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    # O environment "production" guarda os secrets e pode exigir aprovação manual.
+    # O environment "production" guarda os secrets, só aceita a main e exige aprovação manual.
     environment:
       name: production
       url: https://henriquejunior.dev
