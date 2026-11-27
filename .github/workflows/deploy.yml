@@ -103,6 +103,8 @@ jobs:
         run: |
           nome="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
           nome="$(printf '%s' "$nome" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9-]/-/g')"
+          # O cf previews deploy faz o build da Cloudflare, mas não gera dist/: o Eleventy roda antes.
+          npm run build:site
           npx cf previews deploy --mode production --preview-name "$nome" > preview.json
           url="$(jq -r '.preview_urls[0] // empty' preview.json)"
           if [[ -z "$url" ]]; then echo "URL do preview não encontrada na resposta"; cat preview.json; exit 1; fi
