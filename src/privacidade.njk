@@ -1,0 +1,35 @@
+---
+layout: layouts/base.njk
+title: Privacidade
+description: Como este site trata dados de quem o visita.
+---
+{%- from "componentes/ui.njk" import trilha, secao -%}
+{%- set t = textos[site.idioma] -%}
+<section class="pagina container">
+  {{ trilha([{ rotulo: t.inicio, url: "/" }, { rotulo: "Privacidade" }], t.trilha) }}
+  {{ secao("cat privacidade.md", "Privacidade", "titulo", 1) }}
+  <p class="pagina__intro">Este site não pede cadastro, não tem formulários e não usa cookies. Esta página explica o pouco que acontece com os dados de quem o visita, em linha com a Lei Geral de Proteção de Dados (LGPD).</p>
+  <div class="blocos prosa">
+    <section class="bloco" aria-labelledby="hospedagem">
+      <h2 class="bloco__titulo" id="hospedagem">Hospedagem</h2>
+      <p>O site é servido pela Cloudflare. Como qualquer servidor web, a Cloudflare recebe dados técnicos de cada acesso, como endereço IP e navegador, para entregar as páginas e proteger o site contra ataques. Esse tratamento segue a <a href="https://www.cloudflare.com/privacypolicy/">política de privacidade da Cloudflare</a>.</p>
+    </section>
+    <section class="bloco" aria-labelledby="estatisticas">
+      <h2 class="bloco__titulo" id="estatisticas">Estatísticas de visita</h2>
+      <p>Para saber quais páginas são lidas, o site usa o Cloudflare Web Analytics, que não usa cookies nem armazenamento no navegador e mostra apenas números agregados, como visitas por página, país e tipo de dispositivo. Nenhum dado é usado para publicidade nem para identificar quem visita.</p>
+    </section>
+    <section class="bloco" aria-labelledby="preferencias">
+      <h2 class="bloco__titulo" id="preferencias">Preferências no seu navegador</h2>
+      <p>A escolha entre tema claro e escuro fica salva apenas no seu navegador (armazenamento local) e nunca é enviada ao servidor. Você pode apagá-la limpando os dados do site no navegador.</p>
+    </section>
+    <section class="bloco" aria-labelledby="links">
+      <h2 class="bloco__titulo" id="links">Links externos</h2>
+      <p>Links para outros sites, como GitHub e LinkedIn, levam a serviços com políticas próprias. O botão de compartilhar é um link comum: nada é carregado desses serviços enquanto você navega por aqui.</p>
+    </section>
+    <section class="bloco" aria-labelledby="direitos">
+      <h2 class="bloco__titulo" id="direitos">Seus direitos</h2>
+      <p>Pela LGPD, você pode pedir informações sobre o tratamento de dados pessoais. Como este site não coleta dados que identifiquem visitantes, normalmente não há o que consultar ou apagar; mesmo assim, você pode escrever pelos canais da página de <a href="/contato/">contato</a>.</p>
+    </section>
+  </div>
+  <p class="privacidade__atualizacao">Atualizado em <time datetime="2026-11-27">27 de novembro de 2026</time>.</p>
+</section>

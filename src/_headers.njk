@@ -1,0 +1,22 @@
+---
+permalink: /_headers
+eleventyExcludeFromCollections: true
+---
+{#- Gerado no build: a CSP só libera o Web Analytics no build de produção com token configurado. -#}
+{%- set analytics = producao and site.analytics.token -%}
+# Cabeçalhos de segurança aplicados a todos os arquivos estáticos.
+# Sem script nem estilo inline: script, estilo, imagem e fonte só do próprio site
+# (em produção, também o script e o envio do Cloudflare Web Analytics).
+/*
+  Content-Security-Policy: default-src 'none'; script-src 'self'{% if analytics %} https://static.cloudflareinsights.com{% endif %}; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'{% if analytics %} https://cloudflareinsights.com{% endif %}; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=86400; includeSubDomains
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+
+# Endereços de preview e workers.dev não devem ser indexados.
+https://:subdominio.workers.dev/*
+  X-Robots-Tag: noindex
