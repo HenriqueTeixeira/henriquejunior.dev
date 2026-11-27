@@ -38,6 +38,34 @@ jobs:
       # Valida a configuração sem credenciais nem chamadas à API.
       - run: npm run check
 
+  testes:
+    name: Testes de interface
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build:site
+
+      # Navegação, temas, 404 e responsividade em celular, tablet e desktop; axe (WCAG 2.2 AA) nos dois temas.
+      - name: Playwright e axe
+        run: |
+          npx playwright install --with-deps chromium
+          npx playwright test
+
+      # Reprova abaixo de 95 em desempenho, acessibilidade, boas práticas ou SEO.
+      - name: Lighthouse
+        run: npx lhci autorun
+
   preview:
     name: Preview
     needs: validar
@@ -75,6 +103,8 @@ jobs:
         run: |
           nome="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
           nome="$(printf '%s' "$nome" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9-]/-/g')"
+          # O cf previews deploy faz o build da Cloudflare, mas não gera dist/: o Eleventy roda antes.
+          npm run build:site
           npx cf previews deploy --mode production --preview-name "$nome" > preview.json
           url="$(jq -r '.preview_urls[0] // empty' preview.json)"
           if [[ -z "$url" ]]; then echo "URL do preview não encontrada na resposta"; cat preview.json; exit 1; fi
@@ -91,7 +121,7 @@ jobs:
 
   deploy:
     name: Deploy em produção
-    needs: validar
+    needs: [validar, testes]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 10

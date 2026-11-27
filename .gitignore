@@ -14,3 +14,9 @@ Thumbs.db
 
 # Estado local do Wrangler/cf dev
 .wrangler/
+
+# Saída do Eleventy e relatórios de teste
+dist/
+test-results/
+playwright-report/
+.lighthouseci/

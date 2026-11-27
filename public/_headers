@@ -1,7 +1,7 @@
 # Cabeçalhos de segurança aplicados a todos os arquivos estáticos.
-# A página não usa script nem estilo inline, por isso a CSP pode ser estrita.
+# Sem script nem estilo inline: script, estilo, imagem e fonte só do próprio site.
 /*
-  Content-Security-Policy: default-src 'none'; style-src 'self'; img-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests
   Strict-Transport-Security: max-age=86400; includeSubDomains
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY

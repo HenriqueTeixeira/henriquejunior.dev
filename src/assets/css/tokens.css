@@ -1,0 +1,134 @@
+/*
+ * Tokens do design system Henrique Junior.
+ * Componentes usam só estas variáveis; trocar o tema é trocar os valores, nunca o componente.
+ *
+ * Contraste (WCAG 2.2 AA): o cinza #71717A só serve de texto no tema claro; no escuro o texto
+ * suave usa #A1A1AA. O índigo de marca #6366F1 não atinge 4,5:1 com texto branco, então
+ * botões e links usam tons ajustados por tema e o #6366F1 fica para foco e detalhes gráficos.
+ */
+
+@font-face {
+  font-family: "Geist";
+  src: url("/fontes/geist.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fontes/jetbrains-mono.woff2") format("woff2");
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Marca */
+  --marca-indigo: #6366f1;
+
+  /* Tipografia */
+  --fonte-texto: "Geist", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --fonte-tecnica: "JetBrains Mono", ui-monospace, "Cascadia Code", Menlo, monospace;
+  --texto-xs: 0.8125rem;
+  --texto-sm: 0.9375rem;
+  --texto-md: 1.0625rem;
+  --texto-lg: clamp(1.125rem, 1rem + 0.5vw, 1.3125rem);
+  --texto-xl: clamp(1.5rem, 1.2rem + 1.2vw, 2rem);
+  --texto-2xl: clamp(2rem, 1.4rem + 2.6vw, 3.25rem);
+  --texto-3xl: clamp(2.75rem, 1.6rem + 5vw, 5rem);
+  --altura-linha: 1.6;
+  --altura-titulo: 1.08;
+  --espacamento-titulo: -0.035em;
+
+  /* Espaçamento (base 4 px) */
+  --esp-1: 0.25rem;
+  --esp-2: 0.5rem;
+  --esp-3: 0.75rem;
+  --esp-4: 1rem;
+  --esp-6: 1.5rem;
+  --esp-8: 2rem;
+  --esp-12: 3rem;
+  --esp-16: 4rem;
+  --esp-24: 6rem;
+  --esp-secao: clamp(4rem, 2.5rem + 6vw, 8rem);
+
+  /* Layout */
+  --largura-max: 72rem;
+  --largura-texto: 42rem;
+  --margem-lateral: clamp(1rem, 0.5rem + 2.5vw, 2rem);
+  --altura-cabecalho: 4rem;
+
+  /* Forma */
+  --raio-sm: 0.5rem;
+  --raio-md: 0.75rem;
+  --raio-lg: 1.25rem;
+  --raio-total: 999px;
+
+  /* Movimento */
+  --duracao: 180ms;
+  --curva: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Tema claro (padrão) */
+  --cor-fundo: #fafafa;
+  --cor-superficie: #ffffff;
+  --cor-superficie-2: #f4f4f5;
+  --cor-texto: #0a0a0b;
+  --cor-texto-suave: #52525b;
+  --cor-texto-discreto: #71717a;
+  --cor-borda: #e4e4e7;
+  --cor-borda-forte: #d4d4d8;
+  --cor-link: #4f46e5;
+  --cor-primaria: #4f46e5;
+  --cor-primaria-hover: #4338ca;
+  --cor-sobre-primaria: #ffffff;
+  --cor-foco: var(--marca-indigo);
+  --cor-cabecalho: rgb(250 250 250 / 0.85);
+  --sombra: 0 1px 2px rgb(10 10 11 / 0.04), 0 4px 16px rgb(10 10 11 / 0.04);
+  color-scheme: light;
+}
+
+/* Tema escuro: escolhido no botão ou herdado do sistema quando não há escolha salva. */
+:root[data-theme="escuro"] {
+  --cor-fundo: #0a0a0b;
+  --cor-superficie: #141416;
+  --cor-superficie-2: #1c1c1f;
+  --cor-texto: #fafafa;
+  --cor-texto-suave: #d4d4d8;
+  --cor-texto-discreto: #a1a1aa;
+  --cor-borda: #27272a;
+  --cor-borda-forte: #3f3f46;
+  --cor-link: #a5b4fc;
+  --cor-primaria: #818cf8;
+  --cor-primaria-hover: #a5b4fc;
+  --cor-sobre-primaria: #0a0a0b;
+  --cor-cabecalho: rgb(10 10 11 / 0.8);
+  --sombra: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px rgb(0 0 0 / 0.3);
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="claro"]) {
+    --cor-fundo: #0a0a0b;
+    --cor-superficie: #141416;
+    --cor-superficie-2: #1c1c1f;
+    --cor-texto: #fafafa;
+    --cor-texto-suave: #d4d4d8;
+    --cor-texto-discreto: #a1a1aa;
+    --cor-borda: #27272a;
+    --cor-borda-forte: #3f3f46;
+    --cor-link: #a5b4fc;
+    --cor-primaria: #818cf8;
+    --cor-primaria-hover: #a5b4fc;
+    --cor-sobre-primaria: #0a0a0b;
+    --cor-cabecalho: rgb(10 10 11 / 0.8);
+    --sombra: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px rgb(0 0 0 / 0.3);
+    color-scheme: dark;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duracao: 0ms;
+  }
+}

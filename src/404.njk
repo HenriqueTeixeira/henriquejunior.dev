@@ -1,0 +1,14 @@
+---
+layout: layouts/base.njk
+permalink: /404.html
+title: Página não encontrada
+robots: noindex
+eleventyExcludeFromCollections: true
+---
+{%- set t = textos[site.idioma] -%}
+<section class="erro container">
+  <p class="erro__codigo">404</p>
+  <h1 class="erro__titulo">{{ t.naoEncontradaTitulo }}</h1>
+  <p class="erro__texto">{{ t.naoEncontradaTexto }}</p>
+  <a class="botao botao--primario" href="/">{% icone "arrow-left" %}<span>{{ t.voltarInicio }}</span></a>
+</section>
