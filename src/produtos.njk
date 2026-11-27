@@ -1,0 +1,13 @@
+---
+layout: layouts/base.njk
+title: Produtos
+description: Produtos digitais, aplicativos e soluções criadas por Henrique Junior.
+---
+{%- from "componentes/ui.njk" import trilha, secao, cartaoProduto -%}
+{%- set t = textos[site.idioma] -%}
+<section class="pagina container">
+  {{ trilha([{ rotulo: t.inicio, url: "/" }, { rotulo: "Produtos" }], t.trilha) }}
+  {{ secao("ls produtos/", "Produtos", "titulo", 1) }}
+  <p class="pagina__intro">Produtos digitais próprios, do planejamento ao uso.</p>
+  <div class="grade">{% for produto in collections.produtos %}{{ cartaoProduto(produto, catalogo, 2) }}{% endfor %}</div>
+</section>

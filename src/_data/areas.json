@@ -1,0 +1,8 @@
+[
+  { "icone": "compass", "titulo": "Gestão e Estratégia", "descricao": "Planejamento de tecnologia alinhado ao negócio, governança, portfólio e decisões orientadas a valor." },
+  { "icone": "layers", "titulo": "Engenharia e Arquitetura", "descricao": "Sistemas sustentáveis, com arquitetura simples, testes, segurança e manutenção pensadas desde o início." },
+  { "icone": "package", "titulo": "Produtos Digitais", "descricao": "Da ideia ao produto em uso: descoberta, priorização, entrega incremental e evolução contínua." },
+  { "icone": "sparkles", "titulo": "Inteligência Artificial", "descricao": "Uso de IA aplicado a problemas reais, com responsabilidade, revisão humana e resultados mensuráveis." },
+  { "icone": "cloud", "titulo": "Cloud e DevSecOps", "descricao": "Esteiras automatizadas, infraestrutura em nuvem e segurança integrada ao ciclo de entrega." },
+  { "icone": "refresh-cw", "titulo": "Transformação Digital", "descricao": "Pessoas, processos e tecnologia evoluindo juntos para modernizar serviços e formas de trabalhar." }
+]

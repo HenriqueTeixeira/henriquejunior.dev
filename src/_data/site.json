@@ -3,18 +3,23 @@
   "url": "https://henriquejunior.dev",
   "idioma": "pt-BR",
   "posicionamento": "Tecnologia. Estratégia. Inovação.",
+  "apresentacao": "Construindo soluções digitais e conectando pessoas, tecnologia e estratégia para transformar ideias em resultados.",
   "descricao": "Henrique Junior: tecnologia, estratégia e inovação. Projetos, produtos digitais e ideias sobre engenharia de software, liderança e transformação digital.",
   "navegacao": [
-    { "rotulo": "Início", "url": "/", "visivel": true },
-    { "rotulo": "Sobre", "url": "/sobre/", "visivel": false },
-    { "rotulo": "Projetos", "url": "/projetos/", "visivel": false },
-    { "rotulo": "Produtos", "url": "/produtos/", "visivel": false },
-    { "rotulo": "Insights", "url": "/insights/", "visivel": false },
-    { "rotulo": "Labs", "url": "/labs/", "visivel": false },
-    { "rotulo": "Contato", "url": "/contato/", "visivel": false }
+    { "rotulo": "Início", "url": "/", "ativo": true },
+    { "rotulo": "Sobre", "url": "/sobre/", "ativo": true, "colecao": "sobre" },
+    { "rotulo": "Projetos", "url": "/projetos/", "ativo": true, "colecao": "projetos" },
+    { "rotulo": "Produtos", "url": "/produtos/", "ativo": true, "colecao": "produtos" },
+    { "rotulo": "Insights", "url": "/insights/", "ativo": true, "colecao": "insights" },
+    { "rotulo": "Labs", "url": "/labs/", "ativo": false },
+    { "rotulo": "Contato", "url": "/contato/", "ativo": true }
   ],
+  "contato": {
+    "apresentacao": "Para conversar sobre tecnologia, produtos digitais, colaborações ou novas oportunidades, use um dos canais abaixo.",
+    "email": null
+  },
   "redes": [
-    { "rotulo": "GitHub", "url": "https://github.com/HenriqueTeixeira" },
+    { "rotulo": "GitHub", "url": "https://github.com/HenriqueTeixeira", "usuario": "HenriqueTeixeira" },
     { "rotulo": "LinkedIn", "url": null }
   ]
 }

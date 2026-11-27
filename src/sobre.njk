@@ -1,0 +1,51 @@
+---
+layout: layouts/base.njk
+title: Sobre
+description: Trajetória, competências e forma de trabalhar de Henrique Junior.
+---
+{#- Campo vazio em sobre.json: placeholder fora da produção, nada em produção. #}
+{%- from "componentes/ui.njk" import trilha, secao, placeholder -%}
+{%- set t = textos[site.idioma] -%}
+{%- macro texto(titulo, valor, id) -%}
+{%- if valor or not producao %}
+<section class="bloco" aria-labelledby="{{ id }}">
+  <h2 class="bloco__titulo" id="{{ id }}">{{ titulo }}</h2>
+  {% if valor %}<p>{{ valor }}</p>{% else %}<p class="placeholder">[PREENCHER: {{ titulo }}]</p>{% endif %}
+</section>
+{%- endif %}
+{%- endmacro -%}
+{%- macro lista(titulo, itens, id) -%}
+{%- if itens.length or not producao %}
+<section class="bloco" aria-labelledby="{{ id }}">
+  <h2 class="bloco__titulo" id="{{ id }}">{{ titulo }}</h2>
+  {% if itens.length %}<ul class="lista-tags">{% for item in itens %}<li>{{ item }}</li>{% endfor %}</ul>{% else %}<p class="placeholder">[PREENCHER: {{ titulo }}]</p>{% endif %}
+</section>
+{%- endif %}
+{%- endmacro -%}
+<section class="pagina container">
+  {{ trilha([{ rotulo: t.inicio, url: "/" }, { rotulo: "Sobre" }], t.trilha) }}
+  {{ secao("cat sobre.md", "Sobre", "titulo", 1) }}
+  {%- if sobre.apresentacao %}<p class="pagina__intro">{{ sobre.apresentacao }}</p>{% elif not producao %}{{ placeholder("Apresentação pessoal") }}{% endif %}
+  <div class="blocos">
+    {{ texto("Trajetória profissional", sobre.trajetoria, "trajetoria") }}
+    {{ texto("Experiência em liderança", sobre.lideranca, "lideranca") }}
+    {{ texto("Filosofia de trabalho", sobre.filosofia, "filosofia") }}
+    {{ lista("Competências técnicas", sobre.competenciasTecnicas, "tecnicas") }}
+    {{ lista("Competências gerenciais", sobre.competenciasGerenciais, "gerenciais") }}
+    {{ lista("Formação acadêmica", sobre.formacao, "formacao") }}
+    {{ lista("Certificações", sobre.certificacoes, "certificacoes") }}
+    {{ lista("Áreas de interesse", sobre.interesses, "interesses") }}
+  </div>
+  {%- if sobre.linhaDoTempo.length or not producao %}
+  <section class="bloco" aria-labelledby="linha">
+    <h2 class="bloco__titulo" id="linha">Linha do tempo</h2>
+    {%- if sobre.linhaDoTempo.length %}
+    <ol class="linha-tempo">
+      {%- for marco in sobre.linhaDoTempo %}
+      <li><span class="linha-tempo__ano">{{ marco.periodo }}</span><span class="linha-tempo__texto"><strong>{{ marco.titulo }}</strong>{% if marco.descricao %} — {{ marco.descricao }}{% endif %}</span></li>
+      {%- endfor %}
+    </ol>
+    {%- else %}{{ placeholder("marcos da linha do tempo: período, título e descrição") }}{% endif %}
+  </section>
+  {%- endif %}
+</section>

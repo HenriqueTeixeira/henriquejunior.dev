@@ -1,0 +1,13 @@
+---
+layout: layouts/base.njk
+title: Insights
+description: Artigos, reflexões e experimentos sobre tecnologia, liderança e produtos digitais.
+---
+{%- from "componentes/ui.njk" import trilha, secao, linhaInsight -%}
+{%- set t = textos[site.idioma] -%}
+<section class="pagina container">
+  {{ trilha([{ rotulo: t.inicio, url: "/" }, { rotulo: "Insights" }], t.trilha) }}
+  {{ secao("tail insights/", "Insights", "titulo", 1) }}
+  <p class="pagina__intro">Artigos, reflexões e experimentos sobre tecnologia, liderança e produtos digitais.</p>
+  <div class="linhas">{% for artigo in collections.insights %}{{ linhaInsight(artigo, catalogo, 2) }}{% endfor %}</div>
+</section>

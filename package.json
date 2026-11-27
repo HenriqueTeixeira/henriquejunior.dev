@@ -16,7 +16,8 @@
     "deploy": "cf deploy --prebuilt --mode production",
     "test": "playwright test",
     "lighthouse": "lhci autorun",
-    "og": "node scripts/gerar-og.mjs"
+    "og": "node scripts/gerar-og.mjs",
+    "checar:placeholders": "node scripts/checar-placeholders.mjs"
   },
   "devDependencies": {
     "@11ty/eleventy": "3.1.8",

@@ -1,0 +1,13 @@
+{
+  "_leia": "Campos vazios (null ou []) aparecem como placeholder nos previews e somem em produção. A página Sobre só vai ao ar com ao menos um campo preenchido.",
+  "apresentacao": null,
+  "trajetoria": null,
+  "lideranca": null,
+  "filosofia": null,
+  "competenciasTecnicas": [],
+  "competenciasGerenciais": [],
+  "formacao": [],
+  "certificacoes": [],
+  "interesses": [],
+  "linhaDoTempo": []
+}
