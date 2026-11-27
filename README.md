@@ -4,6 +4,9 @@ Site pessoal e vitrine de produtos de Henrique Junior, publicado em https://henr
 
 Site estático gerado pelo [Eleventy](https://www.11ty.dev/) e servido pela Cloudflare (Workers + Static Assets), sem servidor próprio e sem JavaScript de terceiros no navegador.
 
+- [Manutenção](docs/manutencao.md): publicar, conferir, voltar versão e rotinas.
+- [Decisões de arquitetura](docs/decisoes.md): o que foi escolhido e por quê.
+
 ## Estrutura
 
 | Caminho | Conteúdo |
@@ -34,6 +37,8 @@ Site estático gerado pelo [Eleventy](https://www.11ty.dev/) e servido pela Clou
 | `.github/workflows/deploy.yml` | Esteira: validação e testes em todo PR e push; preview; deploy só na `main` |
 | `.github/workflows/checagem-diaria.yml` | Roda `scripts/checar-site.sh` todo dia, mesmo sem deploy |
 | `.github/dependabot.yml` | Atualização semanal de actions e dependências |
+| `docs/` | Guia de manutenção e registro de decisões |
+| `LICENSE` | Licenças: MIT para o código; conteúdo e identidade reservados |
 
 ## Uso local
 
@@ -132,3 +137,7 @@ Nunca coloque tokens no código nem em arquivos `.env` versionados.
 - HSTS começa curto (1 dia); aumente depois de confirmar o HTTPS em todo o domínio.
 - `workers.dev` desligado: o site responde só no domínio próprio.
 - Actions fixadas por SHA, `permissions: contents: read` e checkout sem credenciais persistidas.
+
+## Licença
+
+O código é MIT. Textos, nome, marca, monograma e imagem de compartilhamento têm todos os direitos reservados. Detalhes e licenças de terceiros (fontes Geist e JetBrains Mono, ícones Lucide) em [LICENSE](LICENSE).
