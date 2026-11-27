@@ -1,0 +1,24 @@
+---
+layout: layouts/base.njk
+permalink: /404.html
+title: Página não encontrada
+robots: noindex
+eleventyExcludeFromCollections: true
+---
+{%- set t = textos[site.idioma] -%}
+{%- from "componentes/prompt.njk" import prompt -%}
+<section class="erro container">
+  <div class="janela">
+    <div class="janela__barra" aria-hidden="true">
+      <span class="janela__botoes"><span></span><span></span><span></span></span>
+      <span class="janela__titulo">henrique@junior: ~</span>
+    </div>
+    <div class="janela__corpo">
+      {{ prompt("cd ./pagina") }}
+      <p class="erro__codigo">bash: cd: 404: arquivo ou diretório inexistente</p>
+      <h1 class="erro__titulo">{{ t.naoEncontradaTitulo }}</h1>
+      <p class="erro__texto">{{ t.naoEncontradaTexto }}</p>
+      <a class="botao botao--primario" href="/">{% icone "arrow-left" %}<span>{{ t.voltarInicio }}</span></a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,60 @@
+{%- set t = textos[site.idioma] -%}
+{%- set tituloConteudo = title or titulo -%}
+{%- set descricao = description or resumo or subtitulo or site.descricao -%}
+{%- set urlCanonica = site.url + page.url -%}
+{%- set imagem = site.url + site.imagemPadrao.url -%}
+{%- set tituloPagina = (tituloConteudo + " · " + site.nome) if tituloConteudo else (site.nome + " · " + site.posicionamento) -%}
+<!doctype html>
+<html lang="{{ site.idioma }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ tituloPagina }}</title>
+  <meta name="description" content="{{ descricao }}">
+  {%- if robots %}
+  <meta name="robots" content="{{ robots }}">
+  {%- else %}
+  <link rel="canonical" href="{{ urlCanonica }}">
+  {#- Compartilhamento (Open Graph e cartão do X/Twitter): imagem padrão da marca. #}
+  <meta property="og:type" content="{{ ogTipo or 'website' }}">
+  <meta property="og:site_name" content="{{ site.nome }}">
+  <meta property="og:locale" content="{{ site.idioma | replace('-', '_') }}">
+  <meta property="og:title" content="{{ tituloConteudo or site.nome }}">
+  <meta property="og:description" content="{{ descricao }}">
+  <meta property="og:url" content="{{ urlCanonica }}">
+  <meta property="og:image" content="{{ imagem }}">
+  <meta property="og:image:width" content="{{ site.imagemPadrao.largura }}">
+  <meta property="og:image:height" content="{{ site.imagemPadrao.altura }}">
+  <meta property="og:image:alt" content="{{ site.imagemPadrao.alt }}">
+  {%- if ogTipo == "article" %}
+  <meta property="article:published_time" content="{{ page.date | dataIso }}">
+  {%- endif %}
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">{{ { site: site, page: page, titulo: tituloConteudo or site.nome, resumo: descricao, subtitulo: subtitulo, tipo: tipoPagina, imagem: imagem } | esquema | safe }}</script>
+  {%- endif %}
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FAFAFA" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0A0A0B" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/fontes/geist.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fontes/jetbrains-mono.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <link rel="stylesheet" href="/assets/css/paginas.css">
+  {#- Aplica o tema salvo antes da primeira pintura, para a página não piscar. #}
+  <script src="/assets/js/tema.js"></script>
+  <script type="module" src="/assets/js/site.js"></script>
+</head>
+<body>
+  <a class="pular" href="#conteudo">{{ t.pularParaConteudo }}</a>
+  {% include "componentes/cabecalho.njk" %}
+  <main id="conteudo" tabindex="-1">
+    {{ content | safe }}
+  </main>
+  {% include "componentes/rodape.njk" %}
+  {%- if producao and site.analytics.token %}
+  {#- Cloudflare Web Analytics: sem cookies; só no build de produção (ver /privacidade/). #}
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "{{ site.analytics.token }}"}'></script>
+  {%- endif %}
+</body>
+</html>

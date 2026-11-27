@@ -35,10 +35,16 @@ espera_cabecalho() {
 }
 
 echo "Página inicial: $URL/"
-buscar "/" || { echo "  ERRO  sem resposta de $URL/"; exit 1; }
+# Logo após um deploy, a borda pode servir a versão anterior por alguns segundos:
+# espera o texto esperado aparecer antes de conferir o resto.
+for tentativa in 1 2 3 4 5 6; do
+  buscar "/" || { echo "  ERRO  sem resposta de $URL/"; exit 1; }
+  grep -q "Henrique Junior" corpo.html && break
+  [[ $tentativa -lt 6 ]] && { echo "  versão nova ainda não servida; nova tentativa em 10 s"; sleep 10; }
+done
 status="$(cat status.txt)"
 [[ "$status" == "200" ]] && ok "status 200" || erro "status $status (esperado 200)"
-grep -q "Henrique Teixeira" corpo.html && ok "conteúdo da página" || erro "texto \"Henrique Teixeira\" não encontrado"
+grep -q "Henrique Junior" corpo.html && ok "conteúdo da página" || erro "texto \"Henrique Junior\" não encontrado"
 espera_cabecalho "content-security-policy" "default-src 'none'"
 espera_cabecalho "strict-transport-security" "max-age="
 espera_cabecalho "x-content-type-options" "nosniff"

@@ -1,0 +1,26 @@
+{%- set itens = site.navegacao | visiveis(collections) -%}
+<header class="cabecalho">
+  <div class="cabecalho__interno container">
+    <a class="marca" href="/" aria-label="{{ site.nome }}, {{ t.paginaInicial | lower }}">
+      {% include "componentes/monograma.njk" %}
+      <span class="marca__prompt" aria-hidden="true"><span class="prompt__usuario">henrique</span><span class="prompt__sep">@</span><span class="prompt__host">junior</span></span>
+    </a>
+    <nav class="nav" aria-label="{{ t.navegacaoPrincipal }}">
+      {%- if itens.length > 1 %}
+      <button class="nav__alternar botao-icone" type="button" aria-expanded="false" aria-controls="nav-lista"
+        data-rotulo-abrir="{{ t.abrirMenu }}" data-rotulo-fechar="{{ t.fecharMenu }}" aria-label="{{ t.abrirMenu }}">
+        {% icone "menu" %}{% icone "x" %}
+      </button>
+      <ul class="nav__lista" id="nav-lista">
+        {%- for item in itens %}
+        {#- Itens como diretórios: o "~/" é só visual; o nome acessível é o rótulo. #}
+        <li><a class="nav__link" href="{{ item.url }}"{% if page.url == item.url %} aria-current="page"{% elif item.url != "/" and page.url and page.url.startsWith(item.url) %} aria-current="true"{% endif %}><span class="nav__prefixo" aria-hidden="true">~/</span>{{ item.rotulo | lower }}</a></li>
+        {%- endfor %}
+      </ul>
+      {%- endif %}
+      <button class="tema botao-icone" type="button" data-rotulo-escuro="{{ t.temaEscuro }}" data-rotulo-claro="{{ t.temaClaro }}" aria-label="{{ t.temaEscuro }}">
+        {% icone "moon" %}{% icone "sun" %}
+      </button>
+    </nav>
+  </div>
+</header>

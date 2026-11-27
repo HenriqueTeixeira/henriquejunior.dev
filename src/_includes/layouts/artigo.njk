@@ -1,0 +1,38 @@
+---
+layout: layouts/base.njk
+tipoPagina: artigo
+ogTipo: article
+---
+{%- from "componentes/ui.njk" import trilha, linhaInsight -%}
+{%- set t = textos[site.idioma] -%}
+{%- set categoriaItem = catalogo.categoriasInsight | porChave(categoria) -%}
+{%- set indice = content | sumario -%}
+{%- set urlCompleta = site.url + page.url -%}
+<article class="detalhe container">
+  {{ trilha([{ rotulo: t.inicio, url: "/" }, { rotulo: "Insights", url: "/insights/" }, { rotulo: titulo }], t.trilha) }}
+  <header class="detalhe__cabecalho">
+    <p class="detalhe__meta"><time datetime="{{ page.date | dataIso }}">{{ page.date | dataBr }}</time> · <span class="prompt__dir">{{ categoriaItem.rotulo if categoriaItem else categoria }}</span> · {{ content | leitura }} min de leitura</p>
+    <h1 class="detalhe__titulo">{{ titulo }}</h1>
+    {%- if subtitulo %}<p class="detalhe__resumo">{{ subtitulo }}</p>{% endif %}
+  </header>
+  <div class="detalhe__grade">
+    <div class="prosa">{{ content | safe }}</div>
+    <aside class="detalhe__lateral" aria-label="{{ t.sumario }} e {{ t.compartilhar | lower }}">
+      {%- if indice.length > 1 %}
+      <h2 class="lateral__titulo">{{ t.sumario }}</h2>
+      <ol class="sumario">{% for item in indice %}<li><a href="#{{ item.id }}">{{ item.texto }}</a></li>{% endfor %}</ol>
+      {%- endif %}
+      <h2 class="lateral__titulo">{{ t.compartilhar }}</h2>
+      <ul class="lista-links">
+        <li><a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlCompleta | urlencode }}">{{ t.compartilharLinkedin }} {% icone "external-link" %}</a></li>
+      </ul>
+    </aside>
+  </div>
+  {%- set rel = collections.insights | relacionados(page.url, categoria) -%}
+  {%- if rel.length %}
+  <section class="relacionados" aria-labelledby="relacionados">
+    <h2 class="secao__titulo" id="relacionados">{{ t.relacionados }}</h2>
+    {%- for artigo in rel %}{{ linhaInsight(artigo, catalogo) }}{% endfor %}
+  </section>
+  {%- endif %}
+</article>

@@ -1,0 +1,37 @@
+{
+  "categoriasProjeto": [
+    { "chave": "engenharia", "rotulo": "Engenharia de Software" },
+    { "chave": "arquitetura", "rotulo": "Arquitetura" },
+    { "chave": "ia", "rotulo": "Inteligência Artificial" },
+    { "chave": "gestao", "rotulo": "Gestão e Governança" },
+    { "chave": "transformacao", "rotulo": "Transformação Digital" },
+    { "chave": "cloud", "rotulo": "Cloud e DevSecOps" },
+    { "chave": "pessoal", "rotulo": "Projetos pessoais" }
+  ],
+  "tiposProjeto": [
+    { "chave": "pessoal", "rotulo": "Pessoal" },
+    { "chave": "profissional", "rotulo": "Profissional" },
+    { "chave": "colaborativo", "rotulo": "Colaborativo" },
+    { "chave": "institucional", "rotulo": "Institucional" }
+  ],
+  "statusProduto": [
+    { "chave": "disponivel", "rotulo": "Disponível", "cor": "verde" },
+    { "chave": "beta", "rotulo": "Beta", "cor": "ciano" },
+    { "chave": "desenvolvimento", "rotulo": "Em desenvolvimento", "cor": "amarelo" },
+    { "chave": "experimental", "rotulo": "Experimental", "cor": "magenta" },
+    { "chave": "planejamento", "rotulo": "Em planejamento", "cor": "azul" },
+    { "chave": "descontinuado", "rotulo": "Descontinuado", "cor": "vermelho" }
+  ],
+  "categoriasInsight": [
+    { "chave": "engenharia", "rotulo": "Engenharia de Software" },
+    { "chave": "arquitetura", "rotulo": "Arquitetura de Software" },
+    { "chave": "ia", "rotulo": "Inteligência Artificial" },
+    { "chave": "lideranca", "rotulo": "Liderança tecnológica" },
+    { "chave": "equipes", "rotulo": "Gestão de equipes" },
+    { "chave": "produtos", "rotulo": "Gestão de produtos" },
+    { "chave": "devsecops", "rotulo": "DevSecOps" },
+    { "chave": "transformacao", "rotulo": "Transformação Digital" },
+    { "chave": "inovacao", "rotulo": "Inovação" },
+    { "chave": "experimentos", "rotulo": "Experimentos tecnológicos" }
+  ]
+}

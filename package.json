@@ -8,13 +8,26 @@
     "node": ">=22.18"
   },
   "scripts": {
-    "dev": "cf dev",
-    "build": "cf build --mode production",
+    "dev": "eleventy --serve",
+    "build:site": "eleventy",
+    "build": "npm run build:site && cf build --mode production",
+    "preview:cf": "npm run build && cf dev",
     "check": "cf deploy --prebuilt --mode production --dry-run",
-    "deploy": "cf deploy --prebuilt --mode production"
+    "deploy": "cf deploy --prebuilt --mode production",
+    "test": "playwright test",
+    "lighthouse": "lhci autorun",
+    "og": "node scripts/gerar-og.mjs",
+    "checar:placeholders": "node scripts/checar-placeholders.mjs"
   },
   "devDependencies": {
+    "@11ty/eleventy": "3.1.8",
+    "@axe-core/playwright": "4.14.1",
+    "@fontsource-variable/geist": "5.3.0",
+    "@fontsource-variable/jetbrains-mono": "5.3.0",
+    "@lhci/cli": "0.16.1",
+    "@playwright/test": "1.65.1",
     "cf": "1.0.0-rc.4",
+    "lucide-static": "1.81.0",
     "wrangler": "4.167.0"
   }
 }

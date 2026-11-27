@@ -1,0 +1,74 @@
+{
+  "nome": "Henrique Junior",
+  "url": "https://henriquejunior.dev",
+  "idioma": "pt-BR",
+  "posicionamento": "Tecnologia. Estratégia. Inovação.",
+  "apresentacao": "Construindo soluções digitais e conectando pessoas, tecnologia e estratégia para transformar ideias em resultados.",
+  "descricao": "Henrique Junior: tecnologia, estratégia e inovação. Projetos, produtos digitais e ideias sobre engenharia de software, liderança e transformação digital.",
+  "navegacao": [
+    {
+      "rotulo": "Início",
+      "url": "/",
+      "ativo": true
+    },
+    {
+      "rotulo": "Sobre",
+      "url": "/sobre/",
+      "ativo": true,
+      "colecao": "sobre"
+    },
+    {
+      "rotulo": "Projetos",
+      "url": "/projetos/",
+      "ativo": true,
+      "colecao": "projetos"
+    },
+    {
+      "rotulo": "Produtos",
+      "url": "/produtos/",
+      "ativo": true,
+      "colecao": "produtos"
+    },
+    {
+      "rotulo": "Insights",
+      "url": "/insights/",
+      "ativo": true,
+      "colecao": "insights"
+    },
+    {
+      "rotulo": "Labs",
+      "url": "/labs/",
+      "ativo": false
+    },
+    {
+      "rotulo": "Contato",
+      "url": "/contato/",
+      "ativo": true
+    }
+  ],
+  "contato": {
+    "apresentacao": "Para conversar sobre tecnologia, produtos digitais, colaborações ou novas oportunidades, use um dos canais abaixo.",
+    "email": null
+  },
+  "redes": [
+    {
+      "rotulo": "GitHub",
+      "url": "https://github.com/HenriqueTeixeira",
+      "usuario": "HenriqueTeixeira"
+    },
+    {
+      "rotulo": "LinkedIn",
+      "url": null
+    }
+  ],
+  "analytics": {
+    "_leia": "Token público do Cloudflare Web Analytics (aparece no HTML; não é segredo). Só é usado no build de produção.",
+    "token": "bc8e2fdbfecd41b4b39bae4bc0c4f500"
+  },
+  "imagemPadrao": {
+    "url": "/og.png",
+    "largura": 1200,
+    "altura": 630,
+    "alt": "Janela de terminal com o comando whoami respondendo Henrique Junior e o posicionamento Tecnologia. Estratégia. Inovação."
+  }
+}

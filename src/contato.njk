@@ -1,0 +1,21 @@
+---
+layout: layouts/base.njk
+title: Contato
+description: Canais para falar com Henrique Junior.
+---
+{%- from "componentes/ui.njk" import trilha, secao -%}
+{%- set t = textos[site.idioma] -%}
+{%- set redes = site.redes | selectattr("url") -%}
+<section class="pagina container">
+  {{ trilha([{ rotulo: t.inicio, url: "/" }, { rotulo: "Contato" }], t.trilha) }}
+  {{ secao("cat contato.txt", "Contato", "titulo", 1) }}
+  <p class="pagina__intro">{{ site.contato.apresentacao }}</p>
+  <ul class="canais">
+    {%- if site.contato.email %}
+    <li><a class="canal" href="mailto:{{ site.contato.email }}">{% icone "mail" %}<span class="canal__nome">E-mail</span><span class="canal__valor">{{ site.contato.email }}</span></a></li>
+    {%- endif %}
+    {%- for rede in redes %}
+    <li><a class="canal" href="{{ rede.url }}" rel="me noopener">{% icone "external-link" %}<span class="canal__nome">{{ rede.rotulo }}</span><span class="canal__valor">{{ rede.usuario or rede.url }}</span></a></li>
+    {%- endfor %}
+  </ul>
+</section>

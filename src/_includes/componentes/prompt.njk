@@ -1,0 +1,4 @@
+{#- Linha de prompt decorativa: leitores de tela ignoram, o conteúdo real vem logo abaixo. #}
+{%- macro prompt(comando = "", cursor = false) -%}
+<p class="prompt" aria-hidden="true"><span class="prompt__usuario">henrique@junior</span><span class="prompt__sep">:</span><span class="prompt__dir">~</span><span class="prompt__sep">$</span>{% if comando %} <span class="prompt__comando">{{ comando }}</span>{% endif %}{% if cursor %} <span class="cursor"></span>{% endif %}</p>
+{%- endmacro -%}

@@ -1,0 +1,34 @@
+---
+layout: layouts/base.njk
+tipoPagina: produto
+---
+{%- from "componentes/ui.njk" import trilha, selo -%}
+{%- set t = textos[site.idioma] -%}
+<article class="detalhe container">
+  {{ trilha([{ rotulo: t.inicio, url: "/" }, { rotulo: "Produtos", url: "/produtos/" }, { rotulo: titulo }], t.trilha) }}
+  <header class="detalhe__cabecalho">
+    <div class="detalhe__topo"><p class="detalhe__meta">{{ categoria }}</p>{{ selo(status, catalogo) }}</div>
+    <h1 class="detalhe__titulo">{{ titulo }}</h1>
+    <p class="detalhe__resumo">{{ resumo }}</p>
+    {%- if links.acesso %}
+    <p><a class="botao botao--primario" href="{{ links.acesso }}">{{ t.acessarProduto }} {% icone "arrow-right" %}</a></p>
+    {%- endif %}
+  </header>
+  <div class="detalhe__grade">
+    <div class="prosa">
+      {{ content | safe }}
+      {%- if problema %}<h2>{{ t.problema }}</h2><p>{{ problema }}</p>{% endif %}
+      {%- if publico %}<h2>{{ t.publico }}</h2><p>{{ publico }}</p>{% endif %}
+      {%- if funcionalidades %}<h2>{{ t.funcionalidades }}</h2><ul>{% for f in funcionalidades %}<li>{{ f }}</li>{% endfor %}</ul>{% endif %}
+    </div>
+    {%- if links.documentacao or links.privacidade %}
+    <aside class="detalhe__lateral" aria-label="Links do produto">
+      <h2 class="lateral__titulo">{{ t.links }}</h2>
+      <ul class="lista-links">
+        {%- if links.documentacao %}<li><a href="{{ links.documentacao }}">{{ t.documentacao }}</a></li>{% endif %}
+        {%- if links.privacidade %}<li><a href="{{ links.privacidade }}">{{ t.privacidade }}</a></li>{% endif %}
+      </ul>
+    </aside>
+    {%- endif %}
+  </div>
+</article>

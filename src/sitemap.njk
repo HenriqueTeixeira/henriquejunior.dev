@@ -1,0 +1,16 @@
+---
+permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="utf-8"?>
+{#- Só páginas geradas e indexáveis: exemplos fora da produção, seções vazias e a 404 ficam de fora. #}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{%- for pagina in collections.all %}
+{%- if pagina.url and not pagina.data.robots %}
+  <url>
+    <loc>{{ site.url }}{{ pagina.url }}</loc>
+    <lastmod>{{ pagina.date | dataIso }}</lastmod>
+  </url>
+{%- endif %}
+{%- endfor %}
+</urlset>

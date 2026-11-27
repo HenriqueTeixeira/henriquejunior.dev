@@ -1,0 +1,79 @@
+---
+layout: layouts/base.njk
+---
+{%- from "componentes/prompt.njk" import prompt -%}
+{%- from "componentes/ui.njk" import secao, cartaoProjeto, cartaoProduto, linhaInsight -%}
+{%- set t = textos[site.idioma] -%}
+{%- set redes = site.redes | selectattr("url") -%}
+<section class="hero container">
+  <div class="janela">
+    <div class="janela__barra" aria-hidden="true">
+      <span class="janela__botoes"><span></span><span></span><span></span></span>
+      <span class="janela__titulo">henrique@junior: ~</span>
+    </div>
+    <div class="janela__corpo">
+      {{ prompt("whoami") }}
+      <h1 class="hero__titulo">{{ site.nome }}</h1>
+      {{ prompt("cat posicionamento.txt") }}
+      <p class="hero__posicionamento">{% for palavra in site.posicionamento.split(" ") %}<span>{{ palavra }}</span>{% if not loop.last %} {% endif %}{% endfor %}</p>
+      <p class="hero__texto">{{ site.apresentacao }}</p>
+      <div class="hero__acoes">
+        {%- if collections.projetos.length %}<a class="botao botao--primario" href="/projetos/">{{ t.explorarProjetos }} {% icone "arrow-right" %}</a>{% endif %}
+        {%- if collections.produtos.length %}<a class="botao botao--secundario" href="/produtos/">{{ t.conhecerProdutos }}</a>{% endif %}
+      </div>
+      {%- if redes | length %}
+      <ul class="hero__redes" aria-label="{{ t.redes }}">
+        {%- for rede in redes %}<li><a href="{{ rede.url }}" rel="me noopener">{{ rede.rotulo }}</a></li>{% endfor %}
+      </ul>
+      {%- endif %}
+      {{ prompt("", true) }}
+    </div>
+  </div>
+</section>
+
+<section class="secao container" aria-labelledby="areas">
+  {{ secao("ls areas/", t.areasTitulo, "areas") }}
+  <ul class="bento">
+    {%- for area in areas %}
+    <li class="bento__item">
+      <span class="bento__icone">{% icone area.icone %}</span>
+      <h3 class="bento__titulo">{{ area.titulo }}</h3>
+      <p class="bento__texto">{{ area.descricao }}</p>
+    </li>
+    {%- endfor %}
+  </ul>
+</section>
+
+{%- set produtos = collections.produtos | destaques %}
+{%- if produtos.length %}
+<section class="secao container" aria-labelledby="produtos">
+  {{ secao("ls produtos/ --destaque", t.produtosDestaque, "produtos") }}
+  <div class="grade">{% for produto in produtos %}{{ cartaoProduto(produto, catalogo) }}{% endfor %}</div>
+  <p class="secao__mais"><a href="/produtos/">{{ t.verTodos }} {% icone "arrow-right" %}</a></p>
+</section>
+{%- endif %}
+
+{%- set projetos = collections.projetos | destaques %}
+{%- if projetos.length %}
+<section class="secao container" aria-labelledby="projetos">
+  {{ secao("ls projetos/ --destaque", t.projetosSelecionados, "projetos") }}
+  <div class="grade">{% for projeto in projetos %}{{ cartaoProjeto(projeto, catalogo) }}{% endfor %}</div>
+  <p class="secao__mais"><a href="/projetos/">{{ t.verTodos }} {% icone "arrow-right" %}</a></p>
+</section>
+{%- endif %}
+
+{%- if collections.insights.length %}
+<section class="secao container" aria-labelledby="insights">
+  {{ secao("tail -n 3 insights/", t.insightsRecentes, "insights") }}
+  <div class="linhas">{% for artigo in collections.insights | head(3) %}{{ linhaInsight(artigo, catalogo) }}{% endfor %}</div>
+  <p class="secao__mais"><a href="/insights/">{{ t.verTodos }} {% icone "arrow-right" %}</a></p>
+</section>
+{%- endif %}
+
+<section class="secao container" aria-labelledby="encerramento">
+  <div class="encerramento">
+    {{ secao("./contato.sh", t.encerramentoTitulo, "encerramento") }}
+    <p class="encerramento__texto">{{ t.encerramentoTexto }}</p>
+    <a class="botao botao--primario" href="/contato/">{{ t.irParaContato }} {% icone "arrow-right" %}</a>
+  </div>
+</section>
